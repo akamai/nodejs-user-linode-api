@@ -3,7 +3,7 @@ nodejs-user-linode-api
 
 ### About
 
-Source for a docker container for a node-red based API for 
+Source for a docker container of a nodejs based application for registering users within a Linode account via the Linode API.
 
 repo is synced with docker hub at brianapley/nodejs-user-linode-api.
 
