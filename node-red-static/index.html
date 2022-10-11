@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.linode.com/media/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.linode.com/media/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.linode.com/media/images/favicon-16x16.png">
+  <link rel="mask-icon" href="https://www.linode.com/media/images/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="https://www.linode.com/media/images/favicon.ico">
+  <meta name='robots' content='noindex, nofollow' />
+
+  <title>Page Title | Linode</title>
+
+  <link rel="preload" href="source-sans-pro-v14-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="source-sans-pro-v14-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link rel='stylesheet' href='fonts-source-sans.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='header.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='footer.css' type='text/css' media='all' />
+  <link rel='stylesheet' href='main.css' type='text/css' media='all' />
+  <style>
+    main {
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+    main .o-layout__colset {
+      max-width: 800px;
+    }
+    .state--error .c-intro__body {
+      color: #bd242b;
+    }
+    .state--success .c-intro__body {
+      color: #2cab64;
+    }
+    footer {
+      border-top: 1px solid #ededf4;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="c-site-header">
+
+    <div class="o-layout__row c-site-header__primary">
+      <div class="o-layout__colset">
+        <div class="o-layout__col">
+
+          <div class="o-layout__module c-identity">
+            <a class="c-identity__link" href="https://www.linode.com" target="_self">
+              <img width="160" height="55" alt="Linode - Akamai Cloud Computing Logo" class="c-identity__image" src="linode-akamai-logo.svg">
+            </a>
+          </div>
+
+        </div>
+        <div class="o-layout__col">
+
+          <div class="o-layout__module c-main-menu">
+            <nav class="o-menu o-menu--h">
+              <ul class="o-menu__list --d0">
+                <li class="o-menu__item">
+                  <a class="o-menu__link" href="https://www.linode.com/partners/"><span class="o-menu__title">Partners</span></a>
+                </li>
+                <li class="o-menu__item">
+                  <a class="o-menu__link" href="https://www.linode.com/company/contact/"><span class="o-menu__title">Sales</span></a>
+                </li>
+                <li class="o-menu__item">
+                  <a class="o-menu__link" href="https://login.linode.com/login"><span class="o-menu__title">Log In</span></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data( 'signupForm', () => ( {
+      username: '',
+      email: '',
+      message: '',
+      state: '',
+      submitData() {
+        // fetch( '/red/registration', {
+        //   method: 'POST',
+        //   body: JSON.stringify( {
+        //     username: this.username,
+        //     email: this.email
+        //   } )
+        // } )
+        // fetch( '/red/registration', {
+        let urlParams = new URLSearchParams( {
+          username: this.username,
+          email: this.email
+        } );
+        let submitEndpoint = `/red/registration?${urlParams}`
+        fetch( submitEndpoint, {
+          method: 'POST'
+        } )
+        .then( res => {
+          this.state = 'success';
+          this.message = "Username Created! Check your email inbox for a verification link";
+        } )
+        .catch( err => {
+          this.state = 'error';
+          this.message = "Something went wrong - please change your username to a unique value, and check your email address format.";
+        } );
+      },
+    } ) );
+  } );
+</script>  
+
+<main id="main-content" x-data="signupForm" x-bind:class="state && `state--${state}`">
+  
+  <div class="o-layout__row">
+    <div class="o-layout__colset">
+      <div class="o-layout__col">
+
+        <div class="o-layout__module">
+          <div class="c-intro">
+            <h1 class="c-intro__heaing">
+              <div class="c-intro__title">Workshop User ID Request</div>
+            </h1>
+            <div class="c-intro__body" x-show="!!message">
+              <p x-text="message"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="o-layout__module" x-show="'success' !== state">
+          <form 
+            class="o-form" action="/red/registration" method="POST"
+            @submit.prevent="submitData()"
+          >
+            <div class="o-form__field">
+              <label class="o-form__label" for="Username">Username</label>
+              <input x-model="username" class="o-form__input" type="text" id="Username" name="Username" required>
+            </div>
+            <div class="o-form__field">
+              <label class="o-form__label" for="Email">Email</label>
+              <input x-model="email" class="o-form__input" type="email" id="Email" name="Email" required>
+            </div>
+            <div class="o-form__actions">
+              <button type="submit" class="o-button">Submit</button>
+            </div>
+          </form>
+        
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="c-site-footer u-text-center">
+    <div class="o-layout__row">
+      <div class="o-layout__colset">
+        <div class="o-layout__col">
+          <div class="o-layout__module c-copyright">
+            © 2003-2022 Linode LLC. All rights reserved. Any trademarked names and logos are property of their respective companies.
+          </div>
+          <div class="o-layout__module">
+            <nav class="o-button--link">
+              <a class="o-button" href="https://www.linode.com/site-map/">Site Map</a>
+              <a class="o-button" href="https://www.linode.com/legal/">Terms of Service</a>
+              <a class="o-button" href="https://www.linode.com/legal-privacy/">Privacy Policy</a>
+              <a class="o-button" href="https://www.linode.com/legal-cookies/">Cookie Policy</a>
+              </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
