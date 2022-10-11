@@ -10,6 +10,7 @@ RUN npm install --unsafe-perm --no-update-notifier --no-fund --only=production
 #       If you need to use an external volume for persistence then
 #       copy your settings and flows files to that volume instead.
 COPY --chown=node-red settings.js /data/settings.js
+COPY --chown=node-red node-red-static /data/node-red-static/
 COPY flows_cred.json /data/flows_cred.json
 COPY flows.json /data/flows.json
 COPY --chown=node-red --chmod=777 jwtscript /data/jwtscript
