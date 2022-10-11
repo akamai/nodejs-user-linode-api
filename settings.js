@@ -117,7 +117,7 @@ httpRoot: '/red',
     // When httpAdminRoot is used to move the UI to a different root path, the
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
-httpStatic: '/node-red-static/',
+   httpStatic: '/data/node-red-static/',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
